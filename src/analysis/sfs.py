@@ -1,5 +1,5 @@
 """
-Compute Sycophancy-Free Sensitivity (SFS) from a judgments CSV.
+Compute Selective Flip Score (SFS) from a judgments CSV.
 
 SFS is defined as:
     SFS = F_T - (F_M + F_G) / 2

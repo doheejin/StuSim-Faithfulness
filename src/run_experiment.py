@@ -3,8 +3,9 @@
 Student Simulation Experiment
 
 Tests whether LLMs can serve as authentic student simulators by measuring
-misconception sensitivity: do simulated students "flip" (correct their answer)
-only when teacher feedback addresses the actual misconception?
+misconception faithfulness via the Selective Flip Score (SFS): do simulated
+students "flip" (correct their answer) only when teacher feedback addresses
+the actual misconception?
 
 Supports two datasets:
   --dataset malrule:  Free-form numeric answers with malrule-based misconceptions
@@ -58,6 +59,7 @@ from llm_inference.shared_utils import (
     filter_qwen_responses,
     setup_csv_field_limit,
 )
+from analysis.sfs import read_flip_rates, sfs
 
 # Base directories (relative to this script)
 BASE_DIR = Path(__file__).parent
@@ -1264,47 +1266,10 @@ def _print_analysis(judgments_path: Path):
         print(f"  {short:<15} flip_rate = {flip_rate:.3f} "
               f"({total_flips}/{t}, correct={correct_flips}, sycophantic={sycophantic_flips})")
 
-    # Key metric: misconception sensitivity
-    t1_total = type_totals['type1_correct']
-    t2_total = type_totals['type2_wrong']
-    if t1_total > 0 and t2_total > 0:
-        t1_flips = counts['type1_correct']['correct_flip'] + counts['type1_correct']['sycophantic_flip']
-        t2_flips = counts['type2_wrong']['correct_flip'] + counts['type2_wrong']['sycophantic_flip']
-        t1_flip_rate = t1_flips / t1_total
-        t2_flip_rate = t2_flips / t2_total
-        sensitivity = t1_flip_rate - t2_flip_rate
-
-        print(f"\n--- Key Metric: Misconception Sensitivity ---\n")
-        print(f"  flip_rate(Type1) - flip_rate(Type2) = {t1_flip_rate:.3f} - {t2_flip_rate:.3f} = {sensitivity:.3f}")
-        if abs(sensitivity) < 0.05:
-            print(f"  Interpretation: NEAR ZERO — likely sycophantic (flips regardless of feedback quality)")
-        elif sensitivity > 0.15:
-            print(f"  Interpretation: LARGE GAP — promising! Simulator distinguishes relevant feedback")
-        else:
-            print(f"  Interpretation: SMALL GAP — weak sensitivity to misconception relevance")
-
-    # Per-category breakdown
-    print(f"\n--- Per-Category Flip Rates ---\n")
-    cat_data = defaultdict(lambda: defaultdict(lambda: {'total': 0, 'flips': 0}))
-    for r in rows:
-        math_cat = r['category']
-        ft = r['feedback_type']
-        cat_data[math_cat][ft]['total'] += 1
-        if r['judge_category'] in ('correct_flip', 'sycophantic_flip'):
-            cat_data[math_cat][ft]['flips'] += 1
-
-    print(f"{'Math Category':<30}  {'T1 flip':>8}  {'T2 flip':>8}  {'Sensitivity':>11}")
-    print("-" * 65)
-    for math_cat in sorted(cat_data.keys()):
-        t1 = cat_data[math_cat]['type1_correct']
-        t2 = cat_data[math_cat]['type2_wrong']
-        t1_rate = t1['flips'] / t1['total'] if t1['total'] > 0 else float('nan')
-        t2_rate = t2['flips'] / t2['total'] if t2['total'] > 0 else float('nan')
-        if t1['total'] > 0 and t2['total'] > 0:
-            sens = t1_rate - t2_rate
-            print(f"{math_cat:<30}  {t1_rate:>8.3f}  {t2_rate:>8.3f}  {sens:>+11.3f}")
-        else:
-            print(f"{math_cat:<30}  {'N/A':>8}  {'N/A':>8}  {'N/A':>11}")
+    # SFS (paper metric): F_T - (F_M + F_G) / 2
+    fr = read_flip_rates(judgments_path)
+    S = sfs(fr)
+    print(f"\n--- SFS (Selective Flip Score) = F_T - (F_M + F_G) / 2 = {S:+.3f} ---")
 
 
 # ─── Step 4: Summarize ───────────────────────────────────────────────
@@ -1467,8 +1432,8 @@ def run_summarize_step(args):
     print(f"\nSummary written to: {summary_path}")
     print(f"  {len(summary_rows)} rows")
 
-    # Print sensitivity comparison
-    print(f"\n--- Sensitivity Comparison ---\n")
+    # Print SFS comparison: SFS = F_T - (F_M + F_G) / 2
+    print(f"\n--- SFS Comparison ---\n")
     combos = {}
     for row in summary_rows:
         key = (row['dataset'], row['student_model'], row['prompt_variant'])
@@ -1476,13 +1441,14 @@ def run_summarize_step(args):
             combos[key] = {}
         combos[key][row['feedback_type']] = row['flip_rate']
 
-    print(f"{'Dataset':<10} {'Student Model':<25} {'Prompt':<30} {'T1 flip':>8} {'T2 flip':>8} {'Sensitivity':>11}")
-    print("-" * 100)
+    print(f"{'Dataset':<10} {'Student Model':<25} {'Prompt':<30} {'F_T':>8} {'F_M':>8} {'F_G':>8} {'SFS':>11}")
+    print("-" * 108)
     for (ds, model, variant), rates in sorted(combos.items()):
-        t1 = rates.get('type1_correct', 0)
-        t2 = rates.get('type2_wrong', 0)
-        sens = t1 - t2
-        print(f"{ds:<10} {model:<25} {variant:<30} {t1:>8.4f} {t2:>8.4f} {sens:>+11.4f}")
+        F_T = rates.get('type1_correct', 0)
+        F_M = rates.get('type2_wrong', 0)
+        F_G = rates.get('type3_generic', 0)
+        S = F_T - (F_M + F_G) / 2
+        print(f"{ds:<10} {model:<25} {variant:<30} {F_T:>8.4f} {F_M:>8.4f} {F_G:>8.4f} {S:>+11.4f}")
 
 
 # ─── Main ─────────────────────────────────────────────────────────────
