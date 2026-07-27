@@ -1,0 +1,39 @@
+MIT License (code) — see below.
+
+The Malrule benchmark data in `data/raw_data.csv` and `data/oss120b_v3.csv`
+is instantiated from MalruleLib (https://github.com/luffycodes/malrulelib),
+which is distributed under a non-commercial license. Any downstream use of
+that portion is subject to MalruleLib's license.
+
+The EEDI data in `data/eedi/` is derived from the publicly released EEDI
+diagnostic-questions dataset; downstream use should follow the source
+license.
+
+Trained model checkpoints (produced by scripts/02_train_sft.sh and
+scripts/03_train_grpo.sh) inherit their base models' licenses:
+Qwen3-family (Apache 2.0), Llama-3-family (Meta Llama license),
+gpt-oss (Apache 2.0).
+
+---
+
+MIT License
+
+Copyright (c) 2026 Anonymous
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to
+deal in the Software without restriction, including without limitation the
+rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+sell copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+DEALINGS IN THE SOFTWARE.

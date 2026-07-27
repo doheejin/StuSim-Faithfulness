@@ -1,0 +1,60 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+.env
+
+# Trained checkpoints (users produce these locally).
+checkpoints/
+
+# Local logs / experiment scratch.
+logs/
+wandb/
+*.log
+
+# Editor / OS junk.
+.DS_Store
+.idea/
+.vscode/
+
+# ─── data/results/ policy ───────────────────────────────────────────────
+# We SHIP (for reproducibility + audit of the paper's Table 3-5):
+#   - feedback.csv                                    (T1/T2/T3 feedback data)
+#   - responses_qwen80b_thinking.csv                  (GRPO --meta-data source)
+#   - responses_simulate_student_authentic_*.csv      (Table 3 baseline responses)
+#   - judgments_simulate_student_authentic_*.csv      (Table 3 baseline judgments)
+#   - responses_{sft_*, grpo_*_b16*, grpo_*_004*}.csv (Table 4/5 trained responses)
+#   - judgments_{sft_*, grpo_*_b16*, grpo_*_004*}.csv (Table 4/5 trained judgments)
+#
+# We DO NOT ship response/judgment CSVs from ablation / rebuttal experiments
+# (adversarial paraphrase, oracle, held-out, DPO, alternate GRPO configs).
+# Those are kept in separate branches to keep the main branch focused on
+# artifacts that back the paper's headline tables.
+
+# Rebuttal / ablation artifacts (kept in separate branches).
+data/results/responses_*_verbose.csv
+data/results/responses_*_terse.csv
+data/results/responses_*_adversarial.csv
+data/results/responses_simulate_student_oracle_*.csv
+data/results/responses_*_ho_*.csv
+data/results/responses_dpo_*.csv
+data/results/judgments_*_verbose.csv
+data/results/judgments_*_terse.csv
+data/results/judgments_*_adversarial.csv
+data/results/judgments_simulate_student_oracle_*.csv
+data/results/judgments_*_ho_*.csv
+data/results/judgments_dpo_*.csv
+
+data/results/eedi/responses_*_verbose.csv
+data/results/eedi/responses_*_terse.csv
+data/results/eedi/responses_*_adversarial.csv
+data/results/eedi/responses_simulate_student_oracle_*.csv
+data/results/eedi/responses_*_ho_*.csv
+data/results/eedi/responses_dpo_*.csv
+data/results/eedi/judgments_*_verbose.csv
+data/results/eedi/judgments_*_terse.csv
+data/results/eedi/judgments_*_adversarial.csv
+data/results/eedi/judgments_simulate_student_oracle_*.csv
+data/results/eedi/judgments_*_ho_*.csv
+data/results/eedi/judgments_dpo_*.csv
