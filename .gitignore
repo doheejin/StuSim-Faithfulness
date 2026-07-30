@@ -19,20 +19,19 @@ wandb/
 .vscode/
 
 # ─── data/results/ policy ───────────────────────────────────────────────
-# We SHIP (for reproducibility + audit of the paper's Table 3-5):
+# Included in this release (backing Table 3 and Figure 5):
 #   - feedback.csv                                    (T1/T2/T3 feedback data)
 #   - responses_qwen80b_thinking.csv                  (GRPO --meta-data source)
 #   - responses_simulate_student_authentic_*.csv      (Table 3 baseline responses)
 #   - judgments_simulate_student_authentic_*.csv      (Table 3 baseline judgments)
-#   - responses_{sft_*, grpo_*_b16*, grpo_*_004*}.csv (Table 4/5 trained responses)
-#   - judgments_{sft_*, grpo_*_b16*, grpo_*_004*}.csv (Table 4/5 trained judgments)
+#   - responses_{sft_*, grpo_*_b16*, grpo_*_004*}.csv (post-training responses)
+#   - judgments_{sft_*, grpo_*_b16*, grpo_*_004*}.csv (post-training judgments)
 #
-# We DO NOT ship response/judgment CSVs from ablation / rebuttal experiments
-# (adversarial paraphrase, oracle, held-out, DPO, alternate GRPO configs).
-# Those are kept in separate branches to keep the main branch focused on
-# artifacts that back the paper's headline tables.
+# Additional response/judgment CSVs (adversarial paraphrase, oracle,
+# held-out, alternate configurations) are excluded from this release for
+# size and are scheduled to be released with the camera-ready.
 
-# Rebuttal / ablation artifacts (kept in separate branches).
+# Additional artifacts (excluded from this release).
 data/results/responses_*_verbose.csv
 data/results/responses_*_terse.csv
 data/results/responses_*_adversarial.csv

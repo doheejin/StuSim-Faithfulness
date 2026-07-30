@@ -34,7 +34,7 @@ BETA=${6:?}
 : "${HF_TOKEN:?HF_TOKEN must be set}"
 : "${OPENAI_API_KEY:?OPENAI_API_KEY must be set (for online judge)}"
 : "${CACHE_DIR:=$HOME/.cache/huggingface}"
-: "${JUDGE_MODEL:=gpt-4o-mini}"
+: "${JUDGE_MODEL:=gpt-5-nano}"
 
 REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$REPO_ROOT"

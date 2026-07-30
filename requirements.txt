@@ -11,7 +11,9 @@ transformers==5.5.4
 # should work; we used cuda13 wheels in a container.
 vllm
 
-# OpenAI client for online GRPO judge (gpt-4o-mini) and hosted models.
+# OpenAI client for hosted judge / reward models
+# (paper uses gpt-4o-mini for SFT data generation + filtering,
+#  gpt-5-nano for the online GRPO judge).
 openai>=1.0
 
 # Utilities.
