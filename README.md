@@ -45,6 +45,20 @@ misconception-faithfulness/
 └── README.md
 ```
 
+## Citation
+
+If you find our work useful, please cite our paper:
+
+```bibtex
+@inproceedings{do2026simulating,
+  title     = {Simulating Students or Sycophantic Problem Solving? On Misconception Faithfulness of {LLM} Simulators},
+  author    = {Do, Heejin and Sonkar, Shashank and Sachan, Mrinmaya},
+  booktitle = {Advances in Neural Information Processing Systems},
+  year      = {2026},
+  url       = {https://arxiv.org/abs/2605.12748}
+}
+```
+
 ## Installation
 
 ```bash
