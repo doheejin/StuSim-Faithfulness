@@ -1,8 +1,9 @@
 # Misconception-Faithfulness
 
+
 ![arXiv](https://img.shields.io/badge/arXiv-2605.12748-b31b1b.svg) [![NeurIPS 2026](https://img.shields.io/badge/NeurIPS-2026-4b8bbe.svg)](https://neurips.cc/Conferences/2026) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-Official repository for our NeurIPS 2026 paper, *"Simulating Students or Sycophantic Problem Solving? On Misconception Faithfulness of LLM Simulators."*
+Official repository for our NeurIPS 2026 paper, [*"Simulating Students or Sycophantic Problem Solving? On Misconception Faithfulness of LLM Simulators."*](https://arxiv.org/abs/2605.12748)
 
 This repository provides:
 - **Code** for feedback generation, student simulation, judging, and SFT/DPO/GRPO training;
